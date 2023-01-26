@@ -1,3 +1,6 @@
+using E_CommerceSite.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace E_CommerceSite
 {
     public class Program
@@ -8,6 +11,12 @@ namespace E_CommerceSite
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ProductContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             var app = builder.Build();
 
