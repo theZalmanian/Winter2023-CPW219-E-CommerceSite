@@ -20,7 +20,7 @@ namespace E_CommerceSite.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Product currProduct)
+        public async Task<IActionResult> Create(Product currProduct)
         {
             // If all data is valid
             if(ModelState.IsValid)
@@ -28,8 +28,8 @@ namespace E_CommerceSite.Controllers
                 // Prepare INSERT Statement
                 dbContext.Products.Add(currProduct);
 
-                // Execute query
-                dbContext.SaveChanges();
+                // Execute query asynchronously
+                await dbContext.SaveChangesAsync();
 
                 // Output success message
                 ViewData["Message"] = $"{currProduct.ProductName} was added successfully";
