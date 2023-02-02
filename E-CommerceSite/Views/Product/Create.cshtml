@@ -7,7 +7,9 @@
 <!--If Product was created successfully-->
 @if(ViewData["Message"] != null)
 {
-    <h1>@ViewData["Message"]</h1>
+    <div class="alert alert-success">
+        <h3 class="display-7">@ViewData["Message"]</h3>
+    </div>
 }
 else {
     <h1>Create Product</h1>
