@@ -13,6 +13,15 @@ namespace E_CommerceSite.Controllers
             this.dbContext = dbContext;
         }
 
+        public IActionResult Index()
+        {
+            // Get all Products from the db
+            List<Product> allProducts = dbContext.Products.ToList();
+
+            // Display them on the page
+            return View(allProducts);
+        }
+
         [HttpGet]
         public IActionResult Create()
         {
