@@ -4,6 +4,12 @@
     ViewData["Title"] = "Create Product";
 }
 
+<!--If Product was created successfully-->
+@if(ViewData["Message"] != null)
+{
+    <h1>@ViewData["Message"]</h1>
+}
+
 <h1>Create Product</h1>
 
 <hr />
