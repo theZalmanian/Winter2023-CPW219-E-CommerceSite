@@ -14,6 +14,7 @@ namespace E_CommerceSite.Controllers
             this.dbContext = dbContext;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             // Get all Products from the db
