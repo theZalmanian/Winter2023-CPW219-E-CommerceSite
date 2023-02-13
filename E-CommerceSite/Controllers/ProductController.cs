@@ -66,5 +66,25 @@ namespace E_CommerceSite.Controllers
             // Otherwise display Product information
             return View(currProduct);
         }
+
+        [HttpPost] 
+        public async Task<IActionResult> Edit(Product currProduct)
+        {
+            // If all data is valid
+            if (ModelState.IsValid)
+            {
+                // Prepare UPDATE Statement
+                dbContext.Products.Update(currProduct);
+
+                // Execute query asynchronously
+                await dbContext.SaveChangesAsync();
+
+                // Output success message
+                ViewData["Message"] = $"{currProduct.ProductName} was updated successfully";
+            }
+
+            // If all Product data not valid
+            return View(currProduct);
+        }
     }
 }
