@@ -4,6 +4,15 @@
     ViewData["Title"] = "Product Catalog";
 }
 
+<!--If Product was updated successfully-->
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <h3>@TempData["Message"]</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+    </div>
+}
+
 <h1>Product Catalog</h1>
 
 <p>

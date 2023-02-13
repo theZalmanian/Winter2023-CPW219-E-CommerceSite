@@ -80,7 +80,7 @@ namespace E_CommerceSite.Controllers
                 await dbContext.SaveChangesAsync();
 
                 // Output success message
-                ViewData["Message"] = $"{currProduct.ProductName} was updated successfully";
+                TempData["Message"] = $"{currProduct.ProductName} was updated successfully";
 
                 // Send them back to the Product catalog
                 return RedirectToAction("Index");
