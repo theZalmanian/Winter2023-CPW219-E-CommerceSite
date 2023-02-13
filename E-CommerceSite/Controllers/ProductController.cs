@@ -81,6 +81,9 @@ namespace E_CommerceSite.Controllers
 
                 // Output success message
                 ViewData["Message"] = $"{currProduct.ProductName} was updated successfully";
+
+                // Send them back to the Product catalog
+                return RedirectToAction("Index");
             }
 
             // If all Product data not valid
