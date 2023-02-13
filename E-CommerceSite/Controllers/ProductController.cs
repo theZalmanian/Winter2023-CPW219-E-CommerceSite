@@ -49,5 +49,45 @@ namespace E_CommerceSite.Controllers
             // If all Product data not valid
             return View(currProduct);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int productID)
+        {
+            // Get the specified Product from the DB using it's ID
+            Product currProduct = await dbContext.Products.FindAsync(productID);
+
+            // If the specified product is null
+            if(currProduct == null)
+            {
+                // Display 404 error
+                return NotFound();
+            }
+
+            // Otherwise display Product information
+            return View(currProduct);
+        }
+
+        [HttpPost] 
+        public async Task<IActionResult> Edit(Product currProduct)
+        {
+            // If all data is valid
+            if (ModelState.IsValid)
+            {
+                // Prepare UPDATE Statement
+                dbContext.Products.Update(currProduct);
+
+                // Execute query asynchronously
+                await dbContext.SaveChangesAsync();
+
+                // Output success message
+                TempData["Message"] = $"{currProduct.ProductName} was updated successfully";
+
+                // Send them back to the Product catalog
+                return RedirectToAction("Index");
+            }
+
+            // If all Product data not valid
+            return View(currProduct);
+        }
     }
 }
