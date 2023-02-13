@@ -34,7 +34,7 @@ namespace E_CommerceSite.Controllers
         public async Task<IActionResult> Create(Product currProduct)
         {
             // If all data is valid
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 // Prepare INSERT Statement
                 dbContext.Products.Add(currProduct);
@@ -57,7 +57,7 @@ namespace E_CommerceSite.Controllers
             Product? currProduct = await dbContext.Products.FindAsync(productID);
 
             // If the specified product is null
-            if(currProduct == null)
+            if (currProduct == null)
             {
                 // Display 404 error
                 return NotFound();
@@ -67,7 +67,7 @@ namespace E_CommerceSite.Controllers
             return View(currProduct);
         }
 
-        [HttpPost] 
+        [HttpPost]
         public async Task<IActionResult> Edit(Product currProduct)
         {
             // If all data is valid
@@ -134,6 +134,23 @@ namespace E_CommerceSite.Controllers
 
             // Send them back to the Product catalog
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int productID)
+        {
+            // Get the specified Product from the DB using it's ID
+            Product? currProduct = await dbContext.Products.FindAsync(productID);
+
+            // If the specified product is null
+            if (currProduct == null)
+            {
+                // Display 404 error
+                return NotFound();
+            }
+
+            // Otherwise display Product information
+            return View(currProduct);
         }
     }
 }
