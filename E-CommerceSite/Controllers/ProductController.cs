@@ -79,7 +79,7 @@ namespace E_CommerceSite.Controllers
                 // Execute query asynchronously
                 await dbContext.SaveChangesAsync();
 
-                // Output success message
+                // Prepare success message
                 TempData["Message"] = $"{currProduct.ProductName} was updated successfully";
 
                 // Send them back to the Product catalog
@@ -105,6 +105,35 @@ namespace E_CommerceSite.Controllers
 
             // Otherwise display Product information
             return View(currProduct);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int productID)
+        {
+            // Get the specified Product from the DB using it's ID
+            Product? currProduct = await dbContext.Products.FindAsync(productID);
+
+            // If the specified product is not null
+            if (currProduct != null)
+            {
+                // Prepare DELETE Statement
+                dbContext.Products.Remove(currProduct);
+
+                // Execute query asynchronously
+                await dbContext.SaveChangesAsync();
+
+                // Prepare success message
+                TempData["Message"] = $"{currProduct.ProductName} was deleted successfully";
+
+                // Send them back to the Product catalog
+                return RedirectToAction("Index");
+            }
+
+            // Otherwise, prepare error message
+            TempData["Message"] = "This product has already been deleted";
+
+            // Send them back to the Product catalog
+            return RedirectToAction("Index");
         }
     }
 }
