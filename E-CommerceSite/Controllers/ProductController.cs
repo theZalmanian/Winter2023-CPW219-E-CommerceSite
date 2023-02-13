@@ -54,7 +54,7 @@ namespace E_CommerceSite.Controllers
         public async Task<IActionResult> Edit(int productID)
         {
             // Get the specified Product from the DB using it's ID
-            Product currProduct = await dbContext.Products.FindAsync(productID);
+            Product? currProduct = await dbContext.Products.FindAsync(productID);
 
             // If the specified product is null
             if(currProduct == null)
@@ -87,6 +87,23 @@ namespace E_CommerceSite.Controllers
             }
 
             // If all Product data not valid
+            return View(currProduct);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int productID)
+        {
+            // Get the specified Product from the DB using it's ID
+            Product? currProduct = await dbContext.Products.FindAsync(productID);
+
+            // If the specified product is null
+            if (currProduct == null)
+            {
+                // Display 404 error
+                return NotFound();
+            }
+
+            // Otherwise display Product information
             return View(currProduct);
         }
     }
