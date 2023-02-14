@@ -4,7 +4,6 @@
     ViewData["Title"] = "Product Catalog";
 }
 
-<!--If Product was updated successfully-->
 @if (TempData["Message"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -31,7 +30,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (Product currProduct in Model) {
+    @foreach (Product currProduct in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => currProduct.ProductName)
@@ -45,6 +44,6 @@
                 <a class="btn btn-danger" asp-action="Delete" asp-route-productID="@currProduct.ProductID">Delete</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
