@@ -61,6 +61,7 @@ namespace E_CommerceSite.Models
         /// </summary>
         [Required]
         [StringLength(100, MinimumLength = 8)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         /// <summary>
@@ -69,6 +70,7 @@ namespace E_CommerceSite.Models
         [Required]
         [Compare(nameof(Password))]
         [Display(Name = "Confirm Password")]
+        [DataType(DataType.Password)]
         public string ConfirmPassword { get; set;}
     }
 }
