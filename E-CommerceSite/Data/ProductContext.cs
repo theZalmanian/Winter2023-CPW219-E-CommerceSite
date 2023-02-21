@@ -10,5 +10,7 @@ namespace E_CommerceSite.Data
         }
 
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<Member> Members { get; set; }
     }
 }
