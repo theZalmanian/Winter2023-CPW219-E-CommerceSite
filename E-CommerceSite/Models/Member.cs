@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace E_CommerceSite
+namespace E_CommerceSite.Models
 {
     /// <summary>
     /// Represent's an individual user of the site
