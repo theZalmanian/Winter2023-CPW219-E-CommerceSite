@@ -23,7 +23,7 @@ namespace E_CommerceSite.Models
         /// The Product's sales price
         /// </summary>
         [Required]
-        [Range(0, Double.MaxValue)]
+        [Range(0, double.MaxValue)]
         public double ProductPrice { get; set; }
     }
 }
