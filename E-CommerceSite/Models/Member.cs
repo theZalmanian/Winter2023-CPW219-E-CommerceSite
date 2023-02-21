@@ -20,7 +20,7 @@ namespace E_CommerceSite.Models
         public string MemberEmail { get; set; }
 
         /// <summary>
-        /// The member's chosen password
+        /// The Member's chosen password
         /// </summary>
         [Required]
         public string MemberPassword { get; set; }
@@ -41,19 +41,31 @@ namespace E_CommerceSite.Models
     /// </summary>
     public class RegisterViewModel
     {
+        /// <summary>
+        /// The Member's email address
+        /// </summary>
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
+        /// <summary>
+        /// A copy of the Member's email, to ensure they entered it correctly
+        /// </summary>
         [Required]
         [Compare(nameof(Email))]
         [Display(Name = "Confirm Email")]
         public string ConfirmEmail { get; set; }
 
+        /// <summary>
+        /// The Member's chosen password
+        /// </summary>
         [Required]
         [StringLength(100, MinimumLength = 8)]
         public string Password { get; set; }
 
+        /// <summary>
+        /// A copy of the Member's password, to ensure they entered it correctly
+        /// </summary>
         [Required]
         [Compare(nameof(Password))]
         [Display(Name = "Confirm Password")]
