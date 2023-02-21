@@ -35,4 +35,28 @@ namespace E_CommerceSite.Models
         /// </summary>
         public string MemberPhone { get; set; }
     }
+
+    /// <summary>
+    /// Contains all necessary input to register a user
+    /// </summary>
+    public class RegisterViewModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [Compare(nameof(Email))]
+        [Display(Name = "Confirm Email")]
+        public string ConfirmEmail { get; set; }
+
+        [Required]
+        [StringLength(100, MinimumLength = 8)]
+        public string Password { get; set; }
+
+        [Required]
+        [Compare(nameof(Password))]
+        [Display(Name = "Confirm Password")]
+        public string ConfirmPassword { get; set;}
+    }
 }
