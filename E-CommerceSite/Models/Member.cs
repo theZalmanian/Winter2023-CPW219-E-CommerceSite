@@ -28,12 +28,12 @@ namespace E_CommerceSite.Models
         /// <summary>
         /// The Member's chosen user-name
         /// </summary>
-        public string MemberUsername { get; set; }
+        public string? MemberUsername { get; set; }
 
         /// <summary>
         /// The Member's phone number
         /// </summary>
-        public string MemberPhone { get; set; }
+        public string? MemberPhone { get; set; }
     }
 
     /// <summary>
