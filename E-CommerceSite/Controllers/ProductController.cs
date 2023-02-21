@@ -142,7 +142,7 @@ namespace E_CommerceSite.Controllers
             // Get the specified Product from the DB using it's ID
             Product? currProduct = await dbContext.Products.FindAsync(productID);
 
-            // If the specified product is null
+            // If the specified Product is null
             if (currProduct == null)
             {
                 // Display 404 error
