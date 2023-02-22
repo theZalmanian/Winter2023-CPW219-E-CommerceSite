@@ -42,6 +42,9 @@ namespace E_CommerceSite.Controllers
                 // Execute query asynchronously
                 await dbContext.SaveChangesAsync();
 
+                // Log in the user, using their email
+                LogInUser(newMember.MemberEmail);
+
                 // Redirect the user to the home page
                 return RedirectToAction("Index", "Home");
             }
