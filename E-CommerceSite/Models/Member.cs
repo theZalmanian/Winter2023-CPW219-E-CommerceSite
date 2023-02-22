@@ -37,7 +37,7 @@ namespace E_CommerceSite.Models
     }
 
     /// <summary>
-    /// Contains all necessary input to register a user
+    /// Contains all necessary inputs to register a user
     /// </summary>
     public class RegisterViewModel
     {
@@ -72,5 +72,25 @@ namespace E_CommerceSite.Models
         [Display(Name = "Confirm Password")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set;}
+    }
+
+    /// <summary>
+    /// Contains all necessary inputs for a user to log into their account
+    /// </summary>
+    public class LoginViewModel
+    {
+        /// <summary>
+        /// The email the existing Member is registered under
+        /// </summary>
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        /// <summary>
+        /// The existing Member's registered password
+        /// </summary>
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
     }
 }
