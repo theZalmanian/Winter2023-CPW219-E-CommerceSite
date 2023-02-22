@@ -74,11 +74,11 @@ namespace E_CommerceSite.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                // If that user does not exist, display error
+                // If the user doesn't exist or the password was incorrect, display error
+                ModelState.AddModelError(string.Empty, "That email or password is incorrect!");
             }
 
-            // If that user does not exist,
-            // or the given data was invalid, display error
+            // If all data not valid, or credentials incorrect
             return View(currLogin);
         }
     }
