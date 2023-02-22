@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IHttpContextAccessor httpContext
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -22,12 +24,29 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Login">Log In</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Register">Register Account</a>
-                        </li>
+                        @{
+                            <!--Get the current Member's email (will be null if nobody is logged in)-->
+                            string? memberEmail = httpContext.HttpContext.Session.GetString("Email");
+                        }
+                        @if (memberEmail == null)
+                        {
+                            <!--If a member is not currently logged in-->
+                            <!--Display links to register or log in-->
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Register">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Login">Log In</a>
+                            </li>
+                        }
+                        else 
+                        {
+                            <!--If a member is currently logged in-->
+                            <!--Display their email address-->
+                            <li class="nav-item">
+                                <p>Hello @memberEmail</p>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Product Catalog</a>
                         </li>

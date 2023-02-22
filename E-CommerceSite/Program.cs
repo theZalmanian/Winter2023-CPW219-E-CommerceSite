@@ -18,11 +18,14 @@ namespace E_CommerceSite
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            // Setup session cookies
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+            // Setup session
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession();
 
-            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+            // Allow session access on views
+            builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
 
