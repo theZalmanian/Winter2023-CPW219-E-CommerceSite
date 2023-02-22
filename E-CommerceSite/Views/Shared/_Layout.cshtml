@@ -42,9 +42,12 @@
                         else 
                         {
                             <!--If a member is currently logged in-->
-                            <!--Display their email address-->
+                            <!--Display their email address, and a link to log out-->
                             <li class="nav-item">
                                 <p>Hello @memberEmail</p>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Logout">Log Out</a>
                             </li>
                         }
                         <li class="nav-item">

@@ -84,5 +84,14 @@ namespace E_CommerceSite.Controllers
             // If all data not valid, or credentials incorrect
             return View(currLogin);
         }
+
+        public IActionResult Logout()
+        {
+            // Log the current user out of the session
+            HttpContext.Session.Clear();
+
+            // Redirect the user to the home page
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
