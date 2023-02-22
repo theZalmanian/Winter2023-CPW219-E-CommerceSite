@@ -48,5 +48,17 @@ namespace E_CommerceSite.Controllers
             // If all Registration data not valid
             return View(currRegistration);
         }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        /*[HttpPost]
+        public async Task<IActionResult> Login()
+        {
+            throw new NotImplementedException();
+        }*/
     }
 }
