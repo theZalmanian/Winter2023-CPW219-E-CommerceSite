@@ -1,6 +1,7 @@
 ﻿using E_CommerceSite.Data;
 using E_CommerceSite.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_CommerceSite.Controllers
 {
@@ -55,10 +56,30 @@ namespace E_CommerceSite.Controllers
             return View();
         }
 
-        /*[HttpPost]
-        public async Task<IActionResult> Login()
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel currLogin)
         {
-            throw new NotImplementedException();
-        }*/
+            // If all given data is valid
+            if (ModelState.IsValid)
+            {
+                // Check database for given credentials (Email and Password)
+                Member? currMember = await dbContext.Members.FirstOrDefaultAsync(currMember => 
+                                                                                 currMember.MemberEmail == currLogin.Email && 
+                                                                                 currMember.MemberPassword == currLogin.Password);
+
+                // If the user exists, and the password was correct
+                if (currMember != null)
+                {
+                    // Redirect the user to the home page
+                    return RedirectToAction("Index", "Home");
+                }
+
+                // If that user does not exist, display error
+            }
+
+            // If that user does not exist,
+            // or the given data was invalid, display error
+            return View(currLogin);
+        }
     }
 }
