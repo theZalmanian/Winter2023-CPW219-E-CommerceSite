@@ -52,7 +52,16 @@ namespace E_CommerceSite.Controllers
             // If all Registration data not valid
             return View(currRegistration);
         }
-
+        
+        /// <summary>
+        /// When a user logs in, store the given user's email for the current session
+        /// </summary>
+        /// <param name="memberEmail">The email belonging to the Member needing to be logged in</param>
+        private void LogInUser(string memberEmail)
+        {
+            HttpContext.Session.SetString("Email", memberEmail);
+        }
+        
         [HttpGet]
         public IActionResult Login()
         {
@@ -88,13 +97,13 @@ namespace E_CommerceSite.Controllers
             return View(currLogin);
         }
 
-        /// <summary>
-        /// When a user logs in, store the given user's email for the current session
-        /// </summary>
-        /// <param name="memberEmail">The email belonging to the Member needing to be logged in</param>
-        private void LogInUser(string memberEmail)
+        public IActionResult Logout()
         {
-            HttpContext.Session.SetString("Email", memberEmail);
+            // Log the current user out of the session
+            HttpContext.Session.Clear();
+
+            // Redirect the user to the home page
+            return RedirectToAction("Index", "Home");
         }
     }
 }
