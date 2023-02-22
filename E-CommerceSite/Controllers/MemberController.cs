@@ -70,8 +70,8 @@ namespace E_CommerceSite.Controllers
                 // If the user exists, and the password was correct
                 if (currMember != null)
                 {
-                    // Store the user's email for the current session
-                    HttpContext.Session.SetString("Email", currMember.MemberEmail);
+                    // Log in the user
+                    LogInUser(currMember);
 
                     // Redirect the user to the home page
                     return RedirectToAction("Index", "Home");
@@ -83,6 +83,15 @@ namespace E_CommerceSite.Controllers
 
             // If all data not valid, or credentials incorrect
             return View(currLogin);
+        }
+
+        /// <summary>
+        /// When a user logs in, store the given user's email for the current session
+        /// </summary>
+        /// <param name="currMember">The member needing to be logged in</param>
+        private void LogInUser(Member currMember)
+        {
+            HttpContext.Session.SetString("Email", currMember.MemberEmail);
         }
     }
 }
