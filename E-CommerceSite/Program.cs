@@ -11,10 +11,16 @@ namespace E_CommerceSite
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // Setup connection to server
             builder.Services.AddDbContext<ProductContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            // Setup session cookies
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession();
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -34,6 +40,7 @@ namespace E_CommerceSite
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession(); // Enable session for this project
 
             app.MapControllerRoute(
                 name: "default",

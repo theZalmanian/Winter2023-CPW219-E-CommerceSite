@@ -70,6 +70,9 @@ namespace E_CommerceSite.Controllers
                 // If the user exists, and the password was correct
                 if (currMember != null)
                 {
+                    // Store the user's email for the current session
+                    HttpContext.Session.SetString("Email", currMember.MemberEmail);
+
                     // Redirect the user to the home page
                     return RedirectToAction("Index", "Home");
                 }
