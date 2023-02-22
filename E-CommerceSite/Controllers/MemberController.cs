@@ -42,6 +42,9 @@ namespace E_CommerceSite.Controllers
                 // Execute query asynchronously
                 await dbContext.SaveChangesAsync();
 
+                // Log in the user, using their email
+                LogInUser(newMember.MemberEmail);
+
                 // Redirect the user to the home page
                 return RedirectToAction("Index", "Home");
             }
@@ -49,7 +52,16 @@ namespace E_CommerceSite.Controllers
             // If all Registration data not valid
             return View(currRegistration);
         }
-
+        
+        /// <summary>
+        /// When a user logs in, store the given user's email for the current session
+        /// </summary>
+        /// <param name="memberEmail">The email belonging to the Member needing to be logged in</param>
+        private void LogInUser(string memberEmail)
+        {
+            HttpContext.Session.SetString("Email", memberEmail);
+        }
+        
         [HttpGet]
         public IActionResult Login()
         {
@@ -70,8 +82,8 @@ namespace E_CommerceSite.Controllers
                 // If the user exists, and the password was correct
                 if (currMember != null)
                 {
-                    // Store the user's email for the current session
-                    HttpContext.Session.SetString("Email", currMember.MemberEmail);
+                    // Log in the user, using their email
+                    LogInUser(currMember.MemberEmail);
 
                     // Redirect the user to the home page
                     return RedirectToAction("Index", "Home");
