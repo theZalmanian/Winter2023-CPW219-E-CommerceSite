@@ -60,6 +60,8 @@ namespace E_CommerceSite.Controllers
 
             // Add the current Product to the shopping cart
             productCart.Add(productInCart);
+
+            // Save the shopping cart to the session
             SaveShoppingCartData(productCart);
 
             // Prepare success message
@@ -129,14 +131,14 @@ namespace E_CommerceSite.Controllers
                 TempData["Message"] = $"{productToRemove.ProductName} was removed from the cart";
 
                 // Send them back to the shopping cart
-                return RedirectToAction("ViewCart");
+                return RedirectToAction(nameof(ViewCart));
             }
 
             // Otherwise, prepare error message
             TempData["Message"] = "This product has already been removed from the cart";
 
             // Send them back to the shopping cart
-            return RedirectToAction("ViewCart");
+            return RedirectToAction(nameof(ViewCart));
         }
     }
 }
