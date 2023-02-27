@@ -15,10 +15,19 @@ namespace E_CommerceSite.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            // Get all Products from the db
-            List<Product> allProducts = await dbContext.Products.ToListAsync();
+            const int NumProductsToDisplayPerPage = 3;
+            const int PageOffset = 1;
+
+            // Set the current page counter to ID, unless it's null,
+            // in which case set the current page to 1
+            int currPage = id ?? 1;
+
+            // Get set number of Products from db, accounting for the current page number
+            List<Product> allProducts = await dbContext.Products
+                                                       .Skip(NumProductsToDisplayPerPage * (currPage - PageOffset)) // Skip the given # of Products
+                                                       .Take(NumProductsToDisplayPerPage).ToListAsync(); // Get the given # of Products
 
             // Display them on the page
             return View(allProducts);
