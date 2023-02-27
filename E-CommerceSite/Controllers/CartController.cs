@@ -25,6 +25,16 @@ namespace E_CommerceSite.Controllers
         }
 
         [HttpGet]
+        public IActionResult ViewCart()
+        {
+            // Get all products currently stored in the shopping cart, if any
+            List<ProductCartViewModel> productCart = GetShoppingCartData();
+
+            // Display them on the page
+            return View(productCart);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Add(int productID)
         {
             // Get the specified Product from the DB using it's ID
