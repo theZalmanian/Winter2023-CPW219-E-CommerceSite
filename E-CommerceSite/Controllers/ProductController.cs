@@ -24,7 +24,8 @@ namespace E_CommerceSite.Controllers
             // in which case set the current page to 1
             int currPage = id ?? 1;
             
-            // Get the last possible page number
+            // Get the # of the last page needed to display all Products
+            // in the db on the Products catalog page
             int lastPage = await GetLastPage(NumProductsToDisplayPerPage);
 
             // Get set number of Products from db, accounting for the current page number
