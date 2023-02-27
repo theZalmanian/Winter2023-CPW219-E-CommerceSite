@@ -29,7 +29,7 @@
                     </td>
                     <td>
                         <a class="btn btn-secondary" asp-controller="Product" asp-action="Details" asp-route-productID="@item.ProductID">Details</a>
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        <a class="btn btn-danger" asp-action="Remove" asp-route-productID="@item.ProductID">Remove</a>
                     </td>
                 </tr>
         }

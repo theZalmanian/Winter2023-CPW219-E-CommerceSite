@@ -27,7 +27,7 @@ namespace E_CommerceSite.Controllers
         [HttpGet]
         public IActionResult ViewCart()
         {
-            // Get all products currently stored in the shopping cart, if any
+            // Get all Products currently stored in the shopping cart, if any
             List<ProductCartViewModel> productCart = GetShoppingCartData();
 
             // Display them on the page
@@ -58,13 +58,13 @@ namespace E_CommerceSite.Controllers
             // Get all products currently stored in the shopping cart, if any
             List<ProductCartViewModel> productCart = GetShoppingCartData();
             
-            // Add the current product to the shopping cart
+            // Add the current Product to the shopping cart
             productCart.Add(productInCart);
 
             // Convert shopping cart to JSON 
             string cookieData = JsonConvert.SerializeObject(productCart);
 
-            // Add the current product to the shopping cart cookie
+            // Add the current Product to the shopping cart cookie
             HttpContext.Response.Cookies.Append(CartCookieKey, cookieData, new CookieOptions()
             {
                 // Set it's expiration date to 3 months
@@ -97,6 +97,20 @@ namespace E_CommerceSite.Controllers
 
             // Otherwise, return a list containing all Products in shopping cart
             return JsonConvert.DeserializeObject<List<ProductCartViewModel>>(cookieData);
+        }
+
+        public IActionResult Remove(int productID)
+        {
+            // Get all Products currently stored in the shopping cart
+            List<ProductCartViewModel> productCart = GetShoppingCartData();
+
+            // Get the Product needing removal from the shopping cart using its ID
+            ProductCartViewModel? productToRemove = productCart.FirstOrDefault(product => product.ProductID == productID);
+
+            // Remove the specified Product from the shopping cart
+            productCart.Remove(productToRemove);
+
+            return View();
         }
     }
 }
