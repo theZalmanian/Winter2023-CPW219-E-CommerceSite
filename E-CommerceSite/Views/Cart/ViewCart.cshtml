@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ProductCartViewModel>
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <h3>@TempData["Message"]</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+    </div>
+}
+
+<h1>Shopping Cart</h1>
+<hr />
+
+<!--If the shopping cart is empty-->
+@if (Model.Count() == 0)
+{
+    <h2>You have not added any products to the cart</h2>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductPrice)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductPrice)
+                    </td>
+                    <td>
+                        <a class="btn btn-secondary" asp-controller="Product" asp-action="Details" asp-route-productID="@item.ProductID">Details</a>
+                        <a class="btn btn-danger" asp-action="Remove" asp-route-productID="@item.ProductID">Remove</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
