@@ -15,13 +15,49 @@ namespace E_CommerceSite.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            // Get all Products from the db
-            List<Product> allProducts = await dbContext.Products.ToListAsync();
+            const int NumProductsToDisplayPerPage = 3; // # of Products we want displayed per page
+            const int PageOffset = 1; // Account for page, so the current page's Products are not skipped
 
-            // Display them on the page
-            return View(allProducts);
+            // Set the current page counter to ID, unless it's null,
+            // in which case set the current page to 1
+            int currPage = id ?? 1;
+            
+            // Get the # of the last page needed to display all Products
+            // in the db on the Products catalog page
+            int lastPage = await GetLastPage(NumProductsToDisplayPerPage);
+
+            // Get set number of Products from db, accounting for the current page number
+            List<Product> productsToDisplay = await dbContext.Products
+                                                             .Skip(NumProductsToDisplayPerPage * (currPage - PageOffset)) // Skip the given # of Products
+                                                             .Take(NumProductsToDisplayPerPage).ToListAsync(); // Get the given # of Products
+
+            // Create Product catalog vm to use in displaying info to user
+            ProductCatalogViewModel pageInfo = new(currPage, productsToDisplay, lastPage);
+
+            // Display given Products on the current page of the Product catalog
+            return View(pageInfo);
+        }
+
+        /// <summary>
+        /// Gets count of all Products in db, and using the given number of Products per page, 
+        /// <br></br>
+        /// calculates the max number of pages necessary to display all Products
+        /// </summary>
+        /// <param name="NumProductsToDisplayPerPage">The number of Products to be displayed per page</param>
+        /// <returns>The max number of pages necessary to display all Products in the db</returns>
+        private async Task<int> GetLastPage(int NumProductsToDisplayPerPage)
+        {
+            // Get the total # of Products in the db
+            int totalNumProducts = await dbContext.Products.CountAsync();
+
+            // Calculate the maximum number of pages necessary to display all Products,
+            // rounded up to account for half a page of products: ex. 3.5 pages would become 4
+            double maxNumPages = Math.Ceiling((double)totalNumProducts / NumProductsToDisplayPerPage);
+
+            // Return the last possible page based on prior calculation
+            return Convert.ToInt32(maxNumPages);
         }
 
         [HttpGet]

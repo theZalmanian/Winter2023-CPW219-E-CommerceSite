@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Product>
+﻿@model ProductCatalogViewModel
 
 @{
     ViewData["Title"] = "Product Catalog";
@@ -21,16 +21,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProductName)
+                @Html.DisplayNameFor(model => model.ProductsToDisplay[0].ProductName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductPrice)
+                @Html.DisplayNameFor(model => model.ProductsToDisplay[0].ProductPrice)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-    @foreach (Product currProduct in Model) {
+    @foreach (Product currProduct in Model.ProductsToDisplay) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => currProduct.ProductName)
@@ -45,5 +45,25 @@
             </td>
         </tr>
     }
-    </tbody>
+    </tbody> 
 </table>
+
+<!--Display interface to navigate across pages in the Product catalog-->
+<nav aria-label="Product catalog pages">
+    <ul class="pagination">
+        @for (int currPageNum = 1; currPageNum <= Model.LastPage; currPageNum++) {
+            if (currPageNum == Model.CurrentPage)
+            {
+                <li class="page-item active">
+                    <a class="page-link">@currPageNum</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Index" asp-route-id="@currPageNum">@currPageNum</a>
+                </li>
+            }
+        }
+    </ul>
+</nav>
