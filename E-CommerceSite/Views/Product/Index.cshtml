@@ -45,5 +45,11 @@
             </td>
         </tr>
     }
-    </tbody>
+    </tbody> 
 </table>
+
+<!--Display interface to navigate across pages in the Product catalog-->
+@for (int currPageNum = 1; currPageNum <= Model.LastPage; currPageNum++) {
+    // Display the current page number
+    <p>@currPageNum</p>
+}
