@@ -17,12 +17,15 @@ namespace E_CommerceSite.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int? id)
         {
-            const int NumProductsToDisplayPerPage = 3;
-            const int PageOffset = 1;
+            const int NumProductsToDisplayPerPage = 3; // # of Products we want displayed per page
+            const int PageOffset = 1; // Account for page, so the current page's Products are not skipped
 
             // Set the current page counter to ID, unless it's null,
             // in which case set the current page to 1
             int currPage = id ?? 1;
+            
+            // Get the last possible page number
+            int lastPage = await GetLastPage(NumProductsToDisplayPerPage);
 
             // Get set number of Products from db, accounting for the current page number
             List<Product> allProducts = await dbContext.Products
@@ -31,6 +34,26 @@ namespace E_CommerceSite.Controllers
 
             // Display them on the page
             return View(allProducts);
+        }
+
+        /// <summary>
+        /// Gets count of all Products in db, and using the given number of Products per page, 
+        /// <br></br>
+        /// calculates the max number of pages necessary to display all Products
+        /// </summary>
+        /// <param name="NumProductsToDisplayPerPage">The number of Products to be displayed per page</param>
+        /// <returns>The max number of pages necessary to display all Products in the db</returns>
+        private async Task<int> GetLastPage(int NumProductsToDisplayPerPage)
+        {
+            // Get the total # of Products in the db
+            int totalNumProducts = await dbContext.Products.CountAsync();
+
+            // Calculate the maximum number of pages necessary to display all Products,
+            // rounded up to account for half a page of products: ex. 3.5 pages would become 4
+            double maxNumPages = Math.Ceiling((double)totalNumProducts / NumProductsToDisplayPerPage);
+
+            // Return the last possible page based on prior calculation
+            return Convert.ToInt32(maxNumPages);
         }
 
         [HttpGet]
