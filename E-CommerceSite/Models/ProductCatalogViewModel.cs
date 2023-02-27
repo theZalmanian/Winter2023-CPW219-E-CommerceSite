@@ -1,5 +1,8 @@
 ﻿namespace E_CommerceSite.Models
 {
+    /// <summary>
+    /// Contains all necessary info to display a page of Products to the user, in the Product catalog
+    /// </summary>
     public class ProductCatalogViewModel
     {
         /// <summary>

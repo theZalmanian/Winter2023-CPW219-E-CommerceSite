@@ -29,12 +29,15 @@ namespace E_CommerceSite.Controllers
             int lastPage = await GetLastPage(NumProductsToDisplayPerPage);
 
             // Get set number of Products from db, accounting for the current page number
-            List<Product> allProducts = await dbContext.Products
-                                                       .Skip(NumProductsToDisplayPerPage * (currPage - PageOffset)) // Skip the given # of Products
-                                                       .Take(NumProductsToDisplayPerPage).ToListAsync(); // Get the given # of Products
+            List<Product> productsToDisplay = await dbContext.Products
+                                                             .Skip(NumProductsToDisplayPerPage * (currPage - PageOffset)) // Skip the given # of Products
+                                                             .Take(NumProductsToDisplayPerPage).ToListAsync(); // Get the given # of Products
 
-            // Display them on the page
-            return View(allProducts);
+            // Create Product catalog vm to use in displaying info to user
+            ProductCatalogViewModel pageInfo = new(currPage, productsToDisplay, lastPage);
+
+            // Display given Products on the current page of the Product catalog
+            return View(pageInfo);
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Product>
+﻿@model ProductCatalogViewModel
 
 @{
     ViewData["Title"] = "Product Catalog";
@@ -21,16 +21,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProductName)
+                @Html.DisplayNameFor(model => model.ProductsToDisplay[0].ProductName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductPrice)
+                @Html.DisplayNameFor(model => model.ProductsToDisplay[0].ProductPrice)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-    @foreach (Product currProduct in Model) {
+    @foreach (Product currProduct in Model.ProductsToDisplay) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => currProduct.ProductName)
