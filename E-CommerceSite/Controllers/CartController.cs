@@ -51,16 +51,31 @@ namespace E_CommerceSite.Controllers
             }
 
             // Create Product cart vm to use in adding a product to the cart
-            ProductCartViewModel productInCart = new(currProduct.ProductID, 
-                                                     currProduct.ProductName, 
+            ProductCartViewModel productInCart = new(currProduct.ProductID,
+                                                     currProduct.ProductName,
                                                      currProduct.ProductPrice);
 
             // Get all products currently stored in the shopping cart, if any
             List<ProductCartViewModel> productCart = GetShoppingCartData();
-            
+
             // Add the current Product to the shopping cart
             productCart.Add(productInCart);
+            SaveShoppingCartData(productCart);
 
+            // Prepare success message
+            TempData["Message"] = $"{currProduct.ProductName} was added to the cart";
+
+            // Send them back to the Product catalog
+            return RedirectToAction("Index", "Product");
+        }
+
+        /// <summary>
+        /// Takes in a version of the Products shopping cart, 
+        /// converts it to a JSON, and saves it to the session
+        /// </summary>
+        /// <param name="productCart">A list containing all Products in the shopping cart</param>
+        private void SaveShoppingCartData(List<ProductCartViewModel> productCart)
+        {
             // Convert shopping cart to JSON 
             string cookieData = JsonConvert.SerializeObject(productCart);
 
@@ -70,12 +85,6 @@ namespace E_CommerceSite.Controllers
                 // Set it's expiration date to 3 months
                 Expires = DateTimeOffset.Now.AddMonths(3)
             });
-
-            // Prepare success message
-            TempData["Message"] = $"{currProduct.ProductName} was added to the cart";
-
-            // Send them back to the Product catalog
-            return RedirectToAction("Index", "Product");
         }
 
         /// <summary>
@@ -107,10 +116,27 @@ namespace E_CommerceSite.Controllers
             // Get the Product needing removal from the shopping cart using its ID
             ProductCartViewModel? productToRemove = productCart.FirstOrDefault(product => product.ProductID == productID);
 
-            // Remove the specified Product from the shopping cart
-            productCart.Remove(productToRemove);
+            // If the specified product is not null
+            if (productToRemove != null)
+            {
+                // Remove the specified Product from the shopping cart
+                productCart.Remove(productToRemove);
 
-            return View();
+                // Save the cart with the Product removed
+                SaveShoppingCartData(productCart);
+
+                // Prepare success message
+                TempData["Message"] = $"{productToRemove.ProductName} was removed from the cart";
+
+                // Send them back to the shopping cart
+                return RedirectToAction("ViewCart");
+            }
+
+            // Otherwise, prepare error message
+            TempData["Message"] = "This product has already been removed from the cart";
+
+            // Send them back to the shopping cart
+            return RedirectToAction("ViewCart");
         }
     }
 }
