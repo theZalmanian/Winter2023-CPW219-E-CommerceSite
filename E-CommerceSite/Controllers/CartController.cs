@@ -2,6 +2,7 @@
 using E_CommerceSite.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace E_CommerceSite.Controllers
 {
@@ -29,6 +30,30 @@ namespace E_CommerceSite.Controllers
                 // Send the user back to the Product catalog
                 return RedirectToAction("Index", "Product");
             }
+
+            // Create Product cart vm to use in adding a product to the cart
+            ProductCartViewModel productInCart = new()
+            {
+                ProductID = currProduct.ProductID,
+                ProductName = currProduct.ProductName,
+                ProductPrice = currProduct.ProductPrice
+            };
+
+            // Create cart list to store all added Products
+            List<ProductCartViewModel> productCart = new()
+            {
+                // Add the current Product to the cart
+                productInCart
+            };
+
+            // Convert cart to JSON 
+            string cookieData = JsonConvert.SerializeObject(productCart);
+
+            // 
+            HttpContext.Response.Cookies.Append("Cart", cookieData, new CookieOptions()
+            {
+                Expires = DateTimeOffset.Now.AddMonths(3)
+            });
 
             // Prepare success message
             TempData["Message"] = $"{currProduct.ProductName} was added to the cart";
