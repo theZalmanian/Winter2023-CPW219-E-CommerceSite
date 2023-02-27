@@ -45,18 +45,19 @@ namespace E_CommerceSite.Controllers
                                                      currProduct.ProductName, 
                                                      currProduct.ProductPrice);
 
-            // Create cart list to store all added Products
+            // Get all products currently stored in the shopping cart, if any
             List<ProductCartViewModel> productCart = GetShoppingCartData();
             
-            // Add the current product to the cart
+            // Add the current product to the shopping cart
             productCart.Add(productInCart);
 
-            // Convert cart to JSON 
+            // Convert shopping cart to JSON 
             string cookieData = JsonConvert.SerializeObject(productCart);
 
-            // 
+            // Add the current product to the shopping cart cookie
             HttpContext.Response.Cookies.Append(CartCookieKey, cookieData, new CookieOptions()
             {
+                // Set it's expiration date to 3 months
                 Expires = DateTimeOffset.Now.AddMonths(3)
             });
 
