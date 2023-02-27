@@ -1,6 +1,7 @@
 ﻿using E_CommerceSite.Data;
 using E_CommerceSite.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -8,7 +9,15 @@ namespace E_CommerceSite.Controllers
 {
     public class CartController : Controller
     {
+        /// <summary>
+        /// A connection to the database
+        /// </summary>
         private readonly ProductContext dbContext;
+
+        /// <summary>
+        /// The key to access the shopping cart cookie
+        /// </summary>
+        private const string CartCookieKey = "ShoppingCart";
 
         public CartController(ProductContext dbContext)
         {
@@ -40,17 +49,16 @@ namespace E_CommerceSite.Controllers
             };
 
             // Create cart list to store all added Products
-            List<ProductCartViewModel> productCart = new()
-            {
-                // Add the current Product to the cart
-                productInCart
-            };
+            List<ProductCartViewModel> productCart = GetShoppingCartData();
+            
+            // Add the current product to the cart
+            productCart.Add(productInCart);
 
             // Convert cart to JSON 
             string cookieData = JsonConvert.SerializeObject(productCart);
 
             // 
-            HttpContext.Response.Cookies.Append("Cart", cookieData, new CookieOptions()
+            HttpContext.Response.Cookies.Append(CartCookieKey, cookieData, new CookieOptions()
             {
                 Expires = DateTimeOffset.Now.AddMonths(3)
             });
@@ -60,6 +68,27 @@ namespace E_CommerceSite.Controllers
 
             // Send them back to the Product catalog
             return RedirectToAction("Index", "Product");
+        }
+
+        /// <summary>
+        /// Gets and returns the current list of Products in the users "shopping cart" cookie. 
+        /// If the cookie does not exist, an empty list will be returned instead.
+        /// </summary>
+        /// <returns>A list containing all Products in cart if exists; otherwise and empty list</returns>
+        private List<ProductCartViewModel> GetShoppingCartData()
+        {
+            // Get the cart cookie data from session
+            string? cookieData = HttpContext.Request.Cookies[CartCookieKey];
+
+            // If the given cookie data is null
+            if(string.IsNullOrWhiteSpace(cookieData))
+            {
+                // Return an empty list
+                return new List<ProductCartViewModel>();
+            }
+
+            // Otherwise, return a list containing all Products in shopping cart
+            return JsonConvert.DeserializeObject<List<ProductCartViewModel>>(cookieData);
         }
     }
 }

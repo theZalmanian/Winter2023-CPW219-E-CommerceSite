@@ -7,6 +7,9 @@ namespace E_CommerceSite.Controllers
 {
     public class ProductController : Controller
     {
+        /// <summary>
+        /// A connection to the database
+        /// </summary>
         private readonly ProductContext dbContext;
 
         public ProductController(ProductContext dbContext)
