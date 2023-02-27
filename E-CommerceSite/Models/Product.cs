@@ -39,13 +39,26 @@ namespace E_CommerceSite.Models
         public int ProductID { get; set; }
 
         /// <summary>
-        /// The Product's name
+        /// The Product's unique identifier
         /// </summary>
         public string ProductName { get; set; }
 
         /// <summary>
-        /// The Product's sales price
+        /// The Product's unique identifier
         /// </summary>
         public double ProductPrice { get; set; }
+
+        /// <summary>
+        /// Constructs a Product for the purpose of being added to the "shopping cart" cookie, with the given data
+        /// </summary>
+        /// <param name="productID">The Product's unique identifier</param>
+        /// <param name="productName">The Product's unique identifier</param>
+        /// <param name="productPrice">The Product's unique identifier</param>
+        public ProductCartViewModel(int productID, string productName, double productPrice)
+        {
+            ProductID = productID;
+            ProductName = productName;
+            ProductPrice = productPrice;
+        }
     }
 }

@@ -41,12 +41,9 @@ namespace E_CommerceSite.Controllers
             }
 
             // Create Product cart vm to use in adding a product to the cart
-            ProductCartViewModel productInCart = new()
-            {
-                ProductID = currProduct.ProductID,
-                ProductName = currProduct.ProductName,
-                ProductPrice = currProduct.ProductPrice
-            };
+            ProductCartViewModel productInCart = new(currProduct.ProductID, 
+                                                     currProduct.ProductName, 
+                                                     currProduct.ProductPrice);
 
             // Create cart list to store all added Products
             List<ProductCartViewModel> productCart = GetShoppingCartData();
